@@ -51,11 +51,21 @@ function initTabsConstructor() {
 
         fetch("save.php", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json; charset=utf-8" },
             body: JSON.stringify(tabs)
         })
             .then(r => r.text())
-            .then(t => alert("Saved!"))
+            .then(t => {
+                alert("Saved!");
+
+                initTabsViewer();
+
+                const iframe = document.getElementById('copyFrame');
+                if (iframe) {
+                    iframe.src = 'indexcopy.html?ts=' + Date.now(); // захист від кешу
+                }
+
+            })
             .catch(err => console.error(err));
     };
 }
@@ -64,7 +74,7 @@ function initTabsViewer() {
     const viewer = document.getElementById("tabsViewer");
     if (!viewer) return;
 
-    fetch("load.php")
+    fetch("load.php?ts=" + Date.now())
         .then(r => r.json())
         .then(tabs => buildTabs(viewer, tabs))
         .catch(err => console.error(err));
