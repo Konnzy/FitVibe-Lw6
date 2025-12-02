@@ -9,7 +9,7 @@ $pass = "***";
 $db   = "if0_40501589_FitVibe";
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+    $conn = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $conn->exec("DELETE FROM tabs");
@@ -24,4 +24,5 @@ try {
 
 } catch (PDOException $e) {
     echo "ERROR: " . $e->getMessage();
+
 }
